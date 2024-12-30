@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "231077072508",
+    "project_id": "uhllink-f2d2b",
+    "storage_bucket": "uhllink-f2d2b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231077072508:android:5f8f6b211c0d6a989a83f9",
+        "android_client_info": {
+          "package_name": "com.example.uhl_link"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMU8vfOV4bOyD8Ya40NWHmU8P2GWyD68w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
