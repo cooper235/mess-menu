@@ -2,15 +2,36 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:uhl_link/utils/constants.dart';
 
 // enum CurrentTheme { dark, light }
 
 class UhlLinkTheme {
   UhlLinkTheme._();
 
-  static final ThemeData darkTheme = ThemeData();
+  static final ThemeData lightTheme = ThemeData(
+      primaryColor: Constants.primaryLight,
+      scaffoldBackgroundColor: Constants.scaffoldBackgroundColorLight,
+      textTheme: TextTheme(
+          titleLarge: TextStyle(
+              color: Constants.textColorActiveLight, fontFamily: "Montserrat"),
+          titleMedium: TextStyle(
+              color: Constants.textColorActiveLight, fontFamily: "Montserrat"),
+          labelSmall: TextStyle(
+              color: Constants.textColorActiveLight, fontFamily: "Montserrat")),
+      cardColor: Constants.cardLight);
 
-  static final ThemeData lightTheme = ThemeData();
+  static final ThemeData darkTheme = ThemeData(
+      primaryColor: Constants.primaryDark,
+      scaffoldBackgroundColor: Constants.scaffoldBackgroundColorDark,
+      textTheme: TextTheme(
+          titleLarge: TextStyle(
+              color: Constants.textColorActiveDark, fontFamily: "Montserrat"),
+          titleMedium: TextStyle(
+              color: Constants.textColorActiveDark, fontFamily: "Montserrat"),
+          labelSmall: TextStyle(
+              color: Constants.textColorActiveDark, fontFamily: "Montserrat")),
+      cardColor: Constants.cardDark);
 }
 
 // Events
