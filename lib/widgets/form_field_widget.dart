@@ -44,12 +44,24 @@ class _FormFieldWidgetState extends State<FormFieldWidget> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    widget.focusNode.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
         key: widget.fieldKey,
         child: TextFormField(
           // autofocus: false,
           focusNode: widget.focusNode,
+          onTapOutside: (event) {
+            widget.focusNode.unfocus();
+          },
           controller: widget.controller,
           obscureText: widget.obscureText,
           cursorColor: Theme.of(context).primaryColor,
@@ -72,7 +84,9 @@ class _FormFieldWidgetState extends State<FormFieldWidget> {
                   gapPadding: 24),
               prefixIcon: Icon(
                 widget.prefixIcon,
-                color: Theme.of(context).colorScheme.scrim,
+                color: widget.focusNode.hasFocus
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).colorScheme.scrim,
                 size: 18,
               ),
               suffixIcon: widget.showSuffixIcon
@@ -84,7 +98,9 @@ class _FormFieldWidgetState extends State<FormFieldWidget> {
                         widget.obscureText
                             ? Icons.visibility_rounded
                             : Icons.visibility_off_rounded,
-                        color: Theme.of(context).colorScheme.scrim,
+                        color: widget.focusNode.hasFocus
+                            ? Theme.of(context).primaryColor
+                            : Theme.of(context).colorScheme.scrim,
                         size: 18,
                       ),
                     )

@@ -20,7 +20,9 @@ class UhlLinkTheme {
             fontSize: 40,
             fontWeight: FontWeight.bold),
         titleMedium: TextStyle(
-            color: Constants.textColorActiveLight, fontFamily: "Montserrat"),
+            color: Constants.textColorActiveLight, fontFamily: "Montserrat",
+            fontSize: 25,
+            fontWeight: FontWeight.bold),
         labelSmall: TextStyle(
             color: Constants.textColorActiveLight,
             fontFamily: "Montserrat",

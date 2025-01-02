@@ -33,6 +33,13 @@ class _LoginPageState extends State<LoginPage> {
   bool userLoading = false;
 
   @override
+  void dispose() {
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
