@@ -10,28 +10,84 @@ class UhlLinkTheme {
   UhlLinkTheme._();
 
   static final ThemeData lightTheme = ThemeData(
+      useMaterial3: true,
       primaryColor: Constants.primaryLight,
       scaffoldBackgroundColor: Constants.scaffoldBackgroundColorLight,
       textTheme: TextTheme(
-          titleLarge: TextStyle(
-              color: Constants.textColorActiveLight, fontFamily: "Montserrat"),
-          titleMedium: TextStyle(
-              color: Constants.textColorActiveLight, fontFamily: "Montserrat"),
-          labelSmall: TextStyle(
-              color: Constants.textColorActiveLight, fontFamily: "Montserrat")),
-      cardColor: Constants.cardLight);
+        titleLarge: TextStyle(
+            color: Constants.textColorActiveLight,
+            fontFamily: "Montserrat",
+            fontSize: 40,
+            fontWeight: FontWeight.bold),
+        titleMedium: TextStyle(
+            color: Constants.textColorActiveLight, fontFamily: "Montserrat"),
+        labelSmall: TextStyle(
+            color: Constants.textColorActiveLight,
+            fontFamily: "Montserrat",
+            fontSize: 15,
+            fontWeight: FontWeight.bold),
+        bodyMedium: TextStyle(
+            color: Constants.textColorActiveLight,
+            fontFamily: "Montserrat",
+            fontSize: 18,
+            fontWeight: FontWeight.bold),
+      ),
+      cardColor: Constants.cardLight,
+      hoverColor: Constants.primaryLight,
+      splashColor: Constants.scaffoldBackgroundColorLight,
+      colorScheme: ColorScheme(
+        brightness: Brightness.light,
+        primary: Constants.primaryLight,
+        onPrimary: Colors.white,
+        secondary: Constants.scaffoldBackgroundColorLight,
+        onSecondary: Constants.cardLight,
+        error: Constants.errorLight.withAlpha(100),
+        onError: Constants.errorLight,
+        surface: Constants.cardLight,
+        onSurface: Constants.textColorActiveLight,
+        scrim: Constants.textColorInactiveLight,
+      ));
 
   static final ThemeData darkTheme = ThemeData(
+      useMaterial3: true,
       primaryColor: Constants.primaryDark,
       scaffoldBackgroundColor: Constants.scaffoldBackgroundColorDark,
       textTheme: TextTheme(
-          titleLarge: TextStyle(
-              color: Constants.textColorActiveDark, fontFamily: "Montserrat"),
-          titleMedium: TextStyle(
-              color: Constants.textColorActiveDark, fontFamily: "Montserrat"),
-          labelSmall: TextStyle(
-              color: Constants.textColorActiveDark, fontFamily: "Montserrat")),
-      cardColor: Constants.cardDark);
+        titleLarge: TextStyle(
+            color: Constants.textColorActiveDark,
+            fontFamily: "Montserrat",
+            fontSize: 40,
+            fontWeight: FontWeight.bold),
+        titleMedium: TextStyle(
+            color: Constants.textColorActiveDark, fontFamily: "Montserrat",
+            fontSize: 25,
+            fontWeight: FontWeight.bold),
+        labelSmall: TextStyle(
+            color: Constants.textColorActiveDark,
+            fontFamily: "Montserrat",
+            fontSize: 15,
+            fontWeight: FontWeight.bold),
+        bodyMedium: TextStyle(
+            color: Constants.textColorActiveDark,
+            fontFamily: "Montserrat",
+            fontSize: 18,
+            fontWeight: FontWeight.bold),
+      ),
+      cardColor: Constants.cardDark,
+      hoverColor: Constants.primaryDark,
+      splashColor: Constants.scaffoldBackgroundColorDark,
+      colorScheme: ColorScheme(
+        brightness: Brightness.dark,
+        primary: Constants.primaryDark,
+        onPrimary: Colors.white,
+        secondary: Constants.scaffoldBackgroundColorDark,
+        onSecondary: Constants.cardDark,
+        error: Constants.errorDark.withAlpha(100),
+        onError: Constants.errorDark,
+        surface: Constants.cardDark,
+        onSurface: Constants.textColorActiveDark,
+        scrim: Constants.textColorInactiveDark,
+      ));
 }
 
 // Events
