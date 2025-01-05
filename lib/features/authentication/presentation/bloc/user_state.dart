@@ -37,14 +37,22 @@ class PasswordUpdatedSuccessfully extends AuthenticationState {
   const PasswordUpdatedSuccessfully({required this.user});
 }
 
-class PasswordNotUpdated extends AuthenticationState {
-  final String message;
-
-  const PasswordNotUpdated({required this.message});
-}
-
 class PasswordUpdateError extends AuthenticationState {
   final String message;
 
   const PasswordUpdateError({required this.message});
+}
+
+class GetUserByEmailInitial extends AuthenticationState {}
+
+class GetUserByEmailLoaded extends AuthenticationState {
+  final UserEntity? user;
+
+  const GetUserByEmailLoaded({required this.user});
+}
+
+class GetUserByEmailError extends AuthenticationState {
+  final String message;
+
+  const GetUserByEmailError({required this.message});
 }

@@ -6,6 +6,8 @@ import 'package:uhl_link/features/authentication/domain/entities/user_entity.dar
 import 'package:uhl_link/features/authentication/domain/usecases/signin_user.dart';
 import 'package:uhl_link/features/authentication/domain/usecases/update_password.dart';
 
+import '../../domain/usecases/get_user_by_email.dart';
+
 part 'user_event.dart';
 part 'user_state.dart';
 
@@ -13,11 +15,16 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final SignInUser loginUser;
   final UpdatePassword updatePassword;
+  final GetUserByEmail getUserByEmail;
 
-  AuthenticationBloc({required this.loginUser, required this.updatePassword})
+  AuthenticationBloc(
+      {required this.getUserByEmail,
+      required this.loginUser,
+      required this.updatePassword})
       : super(AuthenticationInitial()) {
     on<SignInEvent>(onSignInEvent);
     on<PasswordUpdateEvent>(onPasswordUpdateEvent);
+    on<GetUserByEmailEvent>(onGetUserByEmailEvent);
   }
 
   void onSignInEvent(
@@ -29,7 +36,6 @@ class AuthenticationBloc
         const flutterSecureStorage = FlutterSecureStorage();
         flutterSecureStorage.write(
             key: 'user', value: jsonEncode(user.toMap()));
-        flutterSecureStorage.write(key: 'savedBarbers', value: jsonEncode([]));
         emit(UserLoaded(user: user));
       } else {
         emit(const UserError(message: "Login Failed"));
@@ -59,15 +65,26 @@ class AuthenticationBloc
         var currentUser = await flutterSecureStorage.read(key: 'user');
         Map<String, dynamic> currentUserMap = jsonDecode(currentUser!);
         currentUserMap['password'] = event.newPassword;
-        flutterSecureStorage.write(key: 'user', value: jsonEncode(currentUser));
+        flutterSecureStorage.write(key: 'user', value: jsonEncode(currentUserMap));
         emit(PasswordUpdatedSuccessfully(
             user: UserEntity.fromJson(currentUserMap)));
       } else {
-        emit(const PasswordNotUpdated(
+        emit(const PasswordUpdateError(
             message: "Password is not updated. Please try again."));
       }
     } catch (e) {
       emit(PasswordUpdateError(message: "Error during password update : $e"));
+    }
+  }
+
+  void onGetUserByEmailEvent(
+      GetUserByEmailEvent event, Emitter<AuthenticationState> emit) async {
+    emit(GetUserByEmailInitial());
+    try {
+      final user = await getUserByEmail.execute(event.email);
+      emit(GetUserByEmailLoaded(user: user));
+    } catch (e) {
+      emit(GetUserByEmailError(message: "Error during fetching email : $e"));
     }
   }
 }

@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uhl_link/config/routes/routes_consts.dart';
 import 'package:uhl_link/features/authentication/presentation/pages/choose_auth.dart';
 import 'package:uhl_link/features/authentication/presentation/pages/login.dart';
+import 'package:uhl_link/features/authentication/presentation/pages/update_password.dart';
+import 'package:uhl_link/widgets/splash_screen.dart';
 import 'package:uhl_link/widgets/test.dart';
 
 class UhlLinkRouter {
@@ -10,8 +14,15 @@ class UhlLinkRouter {
     initialLocation: '/',
     routes: [
       GoRoute(
-          name: UhlLinkRoutesNames.chooseAuth,
+          name: UhlLinkRoutesNames.splash,
           path: '/',
+          pageBuilder: (context, state) {
+            return MaterialPage(
+                key: state.pageKey, child: const SplashScreen());
+          }),
+      GoRoute(
+          name: UhlLinkRoutesNames.chooseAuth,
+          path: '/chooseAuth',
           pageBuilder: (context, state) {
             return MaterialPage(
                 key: state.pageKey, child: const ChooseAuthPage());
@@ -24,7 +35,16 @@ class UhlLinkRouter {
           }),
       GoRoute(
           name: UhlLinkRoutesNames.updatePassword,
-          path: '/updatePassword',
+          path: '/updatePassword/:user',
+          pageBuilder: (context, state) {
+            return MaterialPage(
+                key: state.pageKey,
+                child: UpdatePasswordPage(
+                    user: jsonDecode(state.pathParameters['user']!)));
+          }),
+      GoRoute(
+          name: UhlLinkRoutesNames.test,
+          path: '/test',
           pageBuilder: (context, state) {
             return MaterialPage(key: state.pageKey, child: const TestScreen());
           }),

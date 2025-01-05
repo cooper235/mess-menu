@@ -12,7 +12,7 @@ Future<void> main() async {
   var d = UhlUsersDB();
 
   try {
-    await d.connect();
+    await UhlUsersDB.connect();
     // data = await UhlUsersDB.getUserByEmail("gk.kush2005@gmail.com");
     data = await d.updatePassword("677307a0c3c87127fb411a89", "012345");
     print(data.toString());
@@ -33,7 +33,7 @@ class UhlUsersDB {
 
   UhlUsersDB();
 
-  Future<void> connect() async {
+  static Future<void> connect() async {
     db = await Db.create(connectionURL);
     await db?.open();
     inspect(db);

@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uhl_link/config/routes/routes.dart';
 import 'package:uhl_link/features/authentication/data/data_sources/user_data_sources.dart';
+import 'package:uhl_link/features/authentication/domain/usecases/get_user_by_email.dart';
 import 'package:uhl_link/features/authentication/domain/usecases/update_password.dart';
 import 'package:uhl_link/utils/theme.dart';
 
@@ -17,6 +18,7 @@ void main() async {
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,
   // );
+  await UhlUsersDB.connect();
   const storage = FlutterSecureStorage();
   final GoRouter router = UhlLinkRouter().router;
   runApp(BlocProvider<ThemeBloc>(
@@ -39,6 +41,8 @@ class UhlLink extends StatelessWidget {
             create: (_) => SignInUser(UserRepositoryImpl(UhlUsersDB()))),
         RepositoryProvider<UpdatePassword>(
             create: (_) => UpdatePassword(UserRepositoryImpl(UhlUsersDB()))),
+        RepositoryProvider<GetUserByEmail>(
+            create: (_) => GetUserByEmail(UserRepositoryImpl(UhlUsersDB())))
       ],
       child: MultiBlocProvider(
         providers: [
@@ -46,7 +50,9 @@ class UhlLink extends StatelessWidget {
               create: (context) => AuthenticationBloc(
                   loginUser: SignInUser(UserRepositoryImpl(UhlUsersDB())),
                   updatePassword:
-                      UpdatePassword(UserRepositoryImpl(UhlUsersDB())))),
+                      UpdatePassword(UserRepositoryImpl(UhlUsersDB())),
+                  getUserByEmail:
+                      GetUserByEmail(UserRepositoryImpl(UhlUsersDB())))),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {

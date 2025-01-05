@@ -1,7 +1,10 @@
-import 'dart:developer';
-
+import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
+import 'package:uhl_link/config/routes/routes_consts.dart';
+import 'package:uhl_link/features/authentication/domain/entities/user_entity.dart';
 import '../../../../widgets/screen_width_button.dart';
 import '../bloc/user_bloc.dart';
 import '../../../../widgets/form_field_widget.dart';
@@ -31,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isEmailValid = false;
 
   bool userLoading = false;
+  UserEntity? currentUser;
 
   @override
   void dispose() {
@@ -43,17 +47,21 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        // if (state is UserLoading) {
-        //   userLoading = true;
-        // } else if (state is UserLoaded) {
-        //   userLoading = false;
-        //   GoRouter.of(context)
-        //       .goNamed(CascaRoutesNames.dashboard, pathParameters: {'user': jsonEncode(state.user.toJson())});
-        // } else if (state is UserError) {
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     SnackBar(content: Text(state.message)),
-        //   );
-        // }
+        if (state is UserLoading) {
+          userLoading = true;
+        } else if (state is UserLoaded) {
+          userLoading = false;
+          GoRouter.of(context).pushNamed(UhlLinkRoutesNames.updatePassword,
+              pathParameters: {'user': jsonEncode(state.user.toMap())});
+        } else if (state is UserError) {
+          Fluttertoast.showToast(
+              msg: state.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Theme.of(context).cardColor,
+              textColor: Theme.of(context).colorScheme.onSurface);
+        }
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -78,35 +86,57 @@ class _LoginPageState extends State<LoginPage> {
                       style: Theme.of(context).textTheme.titleMedium),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                FormFieldWidget(
-                  focusNode: emailFocusNode,
-                  fieldKey: emailKey,
-                  controller: emailTextEditingController,
-                  obscureText: false,
-                  validator: (value) {
-                    final bool emailPatternValid = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value!);
-                    if (!emailPatternValid) {
-                      return "Please enter a valid email address.";
-                    } else if (!_isEmailValid) {
-                      return "Invalid email address.";
+                BlocListener<AuthenticationBloc, AuthenticationState>(
+                  listener: (context, state) {
+                    if (state is GetUserByEmailInitial) {
+                      userLoading = true;
+                    } else if (state is GetUserByEmailLoaded) {
+                      userLoading = false;
+                      if (state.user != null) {
+                        _isEmailValid = true;
+                        currentUser = state.user;
+                      } else {
+                        _isEmailValid = false;
+                        currentUser = null;
+                      }
+                    } else if (state is GetUserByEmailError) {
+                      errorEmailValue = state.message;
+                      Fluttertoast.showToast(
+                          msg: "Error in loading your email and password.",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Theme.of(context).cardColor,
+                          textColor: Theme.of(context).colorScheme.onSurface);
                     }
-                    return null;
                   },
-                  onChanged: (String? value) async {
-                    // final List<User> users = await UhlUsersDB.(
-                    //     emailTextEditingController.text);
-                    // if (users.length == 1) {
-                    //   _isEmailValid = true;
-                    // }
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  errorText: errorEmailValue,
-                  prefixIcon: Icons.mail_rounded,
-                  showSuffixIcon: false,
-                  hintText: "Email",
-                  textInputAction: TextInputAction.next,
+                  child: FormFieldWidget(
+                    focusNode: emailFocusNode,
+                    fieldKey: emailKey,
+                    controller: emailTextEditingController,
+                    obscureText: false,
+                    validator: (value) {
+                      final bool emailPatternValid = RegExp(
+                              r"^(?:[a-zA-Z0-9]+@iitmandi\.ac\.in|[a-zA-Z0-9]+@students\.iitmandi\.ac\.in)$")
+                          .hasMatch(value!);
+                      if (!emailPatternValid) {
+                        return "Please enter a valid IIT Mandi email address.";
+                      } else if (!_isEmailValid) {
+                        return "Invalid IIT Mandi email address.";
+                      }
+                      return null;
+                    },
+                    onChanged: (String? value) async {
+                      BlocProvider.of<AuthenticationBloc>(context)
+                          .add(GetUserByEmailEvent(email: value ?? ""));
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    errorText: errorEmailValue,
+                    prefixIcon: Icons.mail_rounded,
+                    showSuffixIcon: false,
+                    hintText: "Email",
+                    textInputAction: TextInputAction.next,
+                  ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 FormFieldWidget(
@@ -123,14 +153,19 @@ class _LoginPageState extends State<LoginPage> {
                     return null;
                   },
                   onChanged: (String? value) async {
-                    // final List<User> users =
-                    //     await CascaUsersDB.getUserByEmail(
-                    //         emailTextEditingController.text);
-                    // if (users.length == 1) {
-                    //   if (users.first.password == value) {
-                    _isPasswordValid = true;
-                    //   }
-                    // }
+                    if (currentUser != null) {
+                      if (currentUser?.password == value) {
+                        _isPasswordValid = true;
+                      } else {
+                        _isPasswordValid = false;
+                      }
+                    } else {
+                      _isPasswordValid = false;
+                    }
+                    setState(() {
+                      _isPasswordValid;
+                    });
+                    // log(_isPasswordValid.toString());
                   },
                   keyboardType: TextInputType.text,
                   errorText: errorPasswordValue,
@@ -145,16 +180,16 @@ class _LoginPageState extends State<LoginPage> {
                 ScreenWidthButton(
                   text: "Sign in",
                   buttonFunc: () {
-                    // final bool isValidEmail = emailKey.currentState!.validate();
-                    // final bool isValidPassword =
-                    //     passwordKey.currentState!.validate();
-                    // if (isValidEmail && isValidPassword) {
-                    //   BlocProvider.of<AuthenticationBloc>(context).add(
-                    //       LoginEvent(
-                    //           email: emailTextEditingController.text,
-                    //           password: passwordTextEditingController.text,
-                    //           rememberMeCheckbox: loginPasswordRememberMe));
-                    // }
+                    final bool isValidEmail = emailKey.currentState!.validate();
+                    final bool isValidPassword =
+                        passwordKey.currentState!.validate();
+
+                    if (isValidEmail && isValidPassword) {
+                      BlocProvider.of<AuthenticationBloc>(context).add(
+                          SignInEvent(
+                              email: emailTextEditingController.text,
+                              password: passwordTextEditingController.text));
+                    }
                   },
                   isLoading: userLoading,
                 ),

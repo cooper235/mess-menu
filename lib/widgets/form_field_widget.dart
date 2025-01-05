@@ -46,10 +46,7 @@ class _FormFieldWidgetState extends State<FormFieldWidget> {
   @override
   void initState() {
     super.initState();
-
-    widget.focusNode.addListener(() {
-      setState(() {});
-    });
+    widget.focusNode.addListener(() {});
   }
 
   @override
@@ -72,10 +69,8 @@ class _FormFieldWidgetState extends State<FormFieldWidget> {
           textInputAction: widget.textInputAction,
           decoration: InputDecoration(
               errorText: widget.errorText,
-              errorStyle: Theme.of(context)
-                  .textTheme
-                  .labelSmall
-                  ?.copyWith(color: Theme.of(context).colorScheme.onError),
+              errorStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onError, fontSize: 13),
               contentPadding: const EdgeInsets.symmetric(vertical: 15),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
