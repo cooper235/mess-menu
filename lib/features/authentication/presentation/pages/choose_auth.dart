@@ -39,7 +39,7 @@ class _ChooseAuthPageState extends State<ChooseAuthPage> {
               ScreenWidthButton(
                 text: "Continue as a Guest",
                 buttonFunc: () {
-                  GoRouter.of(context).pushNamed(UhlLinkRoutesNames.home,
+                  GoRouter.of(context).goNamed(UhlLinkRoutesNames.home,
                       pathParameters: {
                         'isGuest': jsonEncode(true),
                         'user': jsonEncode(null)

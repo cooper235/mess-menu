@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
           userLoading = true;
         } else if (state is UserLoaded) {
           userLoading = false;
-          GoRouter.of(context).pushNamed(UhlLinkRoutesNames.home,
+          GoRouter.of(context).goNamed(UhlLinkRoutesNames.home,
               pathParameters: {
                 'isGuest': jsonEncode(false),
                 'user': jsonEncode(state.user.toMap())

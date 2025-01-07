@@ -123,7 +123,10 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   TextSpan(
                       text:
                           "This will be your new password and updating the password can be done via some logged in device only.",
-                      style: Theme.of(context).textTheme.labelSmall)
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall!
+                          .copyWith(fontFamily: 'Montserrat_Regular'))
                 ])),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,

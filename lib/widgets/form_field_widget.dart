@@ -70,7 +70,7 @@ class _FormFieldWidgetState extends State<FormFieldWidget> {
           decoration: InputDecoration(
               errorText: widget.errorText,
               errorStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onError, fontSize: 13),
+                  color: Theme.of(context).colorScheme.onError, fontSize: 12),
               contentPadding: const EdgeInsets.symmetric(vertical: 15),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(

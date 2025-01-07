@@ -16,23 +16,20 @@ class UhlLinkTheme {
       textTheme: TextTheme(
         titleLarge: TextStyle(
             color: Constants.textColorActiveLight,
-            fontFamily: "Montserrat",
-            fontSize: 40,
-            fontWeight: FontWeight.bold),
+            fontFamily: "Montserrat_Bold",
+            fontSize: 36),
         titleMedium: TextStyle(
-            color: Constants.textColorActiveLight, fontFamily: "Montserrat",
-            fontSize: 25,
-            fontWeight: FontWeight.bold),
+            color: Constants.textColorActiveLight,
+            fontFamily: "Montserrat_Bold",
+            fontSize: 28),
         labelSmall: TextStyle(
             color: Constants.textColorActiveLight,
-            fontFamily: "Montserrat",
-            fontSize: 15,
-            fontWeight: FontWeight.bold),
+            fontFamily: "Montserrat_Medium",
+            fontSize: 15),
         bodyMedium: TextStyle(
             color: Constants.textColorActiveLight,
-            fontFamily: "Montserrat",
-            fontSize: 18,
-            fontWeight: FontWeight.bold),
+            fontFamily: "Montserrat_SemiBold",
+            fontSize: 20),
       ),
       cardColor: Constants.cardLight,
       hoverColor: Constants.primaryLight,
@@ -61,7 +58,8 @@ class UhlLinkTheme {
             fontSize: 40,
             fontWeight: FontWeight.bold),
         titleMedium: TextStyle(
-            color: Constants.textColorActiveDark, fontFamily: "Montserrat",
+            color: Constants.textColorActiveDark,
+            fontFamily: "Montserrat",
             fontSize: 25,
             fontWeight: FontWeight.bold),
         labelSmall: TextStyle(
@@ -97,6 +95,8 @@ abstract class ThemeEvent {}
 
 class ToggleTheme extends ThemeEvent {}
 
+class InitializeTheme extends ThemeEvent {}
+
 // States
 class ThemeState {
   final bool isDark;
@@ -113,11 +113,15 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       await storage.write(key: 'isDark', value: newIsDark.toString());
       emit(ThemeState(isDark: newIsDark));
     });
+
+    on<InitializeTheme>((event, emit) async {
+      final isDark =
+          (await storage.read(key: 'isDark')) == "true" ? true : false;
+      emit(ThemeState(isDark: isDark));
+    });
   }
 
-  // Load saved theme preference
-  Future<void> loadSavedTheme() async {
-    final isDark = (await storage.read(key: 'isDark')) == "true" ? true : false;
-    emit(ThemeState(isDark: isDark));
+  void loadSavedTheme() {
+    add(InitializeTheme());
   }
 }
