@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uhl_link/config/routes/routes_consts.dart';
@@ -37,7 +39,11 @@ class _ChooseAuthPageState extends State<ChooseAuthPage> {
               ScreenWidthButton(
                 text: "Continue as a Guest",
                 buttonFunc: () {
-                  GoRouter.of(context).pushNamed(UhlLinkRoutesNames.updatePassword);
+                  GoRouter.of(context).pushNamed(UhlLinkRoutesNames.home,
+                      pathParameters: {
+                        'isGuest': jsonEncode(true),
+                        'user': jsonEncode(null)
+                      });
                 },
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),

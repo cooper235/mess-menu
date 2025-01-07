@@ -6,4 +6,6 @@ class UhlLinkRoutesNames {
   static const String chooseAuth = 'choose_auth';
   static const String login = 'login';
   static const String updatePassword = 'update_password';
+
+  static const String home = 'home';
 }

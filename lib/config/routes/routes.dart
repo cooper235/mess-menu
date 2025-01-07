@@ -6,6 +6,7 @@ import 'package:uhl_link/config/routes/routes_consts.dart';
 import 'package:uhl_link/features/authentication/presentation/pages/choose_auth.dart';
 import 'package:uhl_link/features/authentication/presentation/pages/login.dart';
 import 'package:uhl_link/features/authentication/presentation/pages/update_password.dart';
+import 'package:uhl_link/features/home/presentation/pages/home.dart';
 import 'package:uhl_link/widgets/splash_screen.dart';
 import 'package:uhl_link/widgets/test.dart';
 
@@ -41,6 +42,16 @@ class UhlLinkRouter {
                 key: state.pageKey,
                 child: UpdatePasswordPage(
                     user: jsonDecode(state.pathParameters['user']!)));
+          }),
+      GoRoute(
+          name: UhlLinkRoutesNames.home,
+          path: '/home/:isGuest/:user',
+          pageBuilder: (context, state) {
+            return MaterialPage(
+                key: state.pageKey,
+                child: HomePage(
+                    isGuest: jsonDecode(state.pathParameters['isGuest']!),
+                    user: jsonDecode(state.pathParameters['user']!),));
           }),
       GoRoute(
           name: UhlLinkRoutesNames.test,

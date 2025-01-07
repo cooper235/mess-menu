@@ -27,8 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
     // Navigate based on the token presence
     if (token != null) {
-      GoRouter.of(context)
-          .goNamed(UhlLinkRoutesNames.updatePassword, pathParameters: {'user': token});
+      GoRouter.of(context).goNamed(UhlLinkRoutesNames.home,
+          pathParameters: {'isGuest': jsonEncode(false), 'user': token});
     } else {
       GoRouter.of(context).goNamed(UhlLinkRoutesNames.chooseAuth);
     }

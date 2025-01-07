@@ -51,8 +51,11 @@ class _LoginPageState extends State<LoginPage> {
           userLoading = true;
         } else if (state is UserLoaded) {
           userLoading = false;
-          GoRouter.of(context).pushNamed(UhlLinkRoutesNames.updatePassword,
-              pathParameters: {'user': jsonEncode(state.user.toMap())});
+          GoRouter.of(context).pushNamed(UhlLinkRoutesNames.home,
+              pathParameters: {
+                'isGuest': jsonEncode(false),
+                'user': jsonEncode(state.user.toMap())
+              });
         } else if (state is UserError) {
           Fluttertoast.showToast(
               msg: state.message,
