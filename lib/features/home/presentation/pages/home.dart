@@ -32,9 +32,15 @@ class _HomePageState extends State<HomePage> {
       Explore(isGuest: widget.isGuest),
       Academics(isGuest: widget.isGuest),
       Notifications(isGuest: widget.isGuest),
-      Profile(isGuest: widget.isGuest),
+      Profile(isGuest: widget.isGuest, user: widget.user),
     ];
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).cardColor,
+        title: Text(homePageTitles[currentBottomBarIndex],
+            style: Theme.of(context).textTheme.bodyMedium),
+        centerTitle: true,
+      ),
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
