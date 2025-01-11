@@ -73,7 +73,7 @@ class UhlLinkRouter {
           path: '/quick_links',
           pageBuilder: (context, state) {
             return MaterialPage(
-                key: state.pageKey, child: const QuickLinksPage());
+                key: state.pageKey, child: QuickLinksPage());
           }),
 
       // Academics

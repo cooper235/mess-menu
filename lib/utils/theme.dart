@@ -54,24 +54,20 @@ class UhlLinkTheme {
       textTheme: TextTheme(
         titleLarge: TextStyle(
             color: Constants.textColorActiveDark,
-            fontFamily: "Montserrat",
-            fontSize: 40,
-            fontWeight: FontWeight.bold),
+            fontFamily: "Montserrat_Bold",
+            fontSize: 36),
         titleMedium: TextStyle(
             color: Constants.textColorActiveDark,
-            fontFamily: "Montserrat",
-            fontSize: 25,
-            fontWeight: FontWeight.bold),
+            fontFamily: "Montserrat_Bold",
+            fontSize: 28),
         labelSmall: TextStyle(
             color: Constants.textColorActiveDark,
-            fontFamily: "Montserrat",
-            fontSize: 15,
-            fontWeight: FontWeight.bold),
+            fontFamily: "Montserrat_Medium",
+            fontSize: 15),
         bodyMedium: TextStyle(
             color: Constants.textColorActiveDark,
-            fontFamily: "Montserrat",
-            fontSize: 18,
-            fontWeight: FontWeight.bold),
+            fontFamily: "Montserrat_SemiBold",
+            fontSize: 20),
       ),
       cardColor: Constants.cardDark,
       hoverColor: Constants.primaryDark,

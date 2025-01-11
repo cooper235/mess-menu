@@ -49,11 +49,11 @@ dependencies:
   injectable:
 #  realm:
 #  mongo_dart:
-#  url_launcher: ^6.1.8
+  url_launcher: ^6.1.8
 #  share_plus: ^10.1.2
   flutter_secure_storage: ^9.2.2
   firebase_core: ^3.9.0
-#  firebase_auth:
+
   realm:
   mongo_dart:
   fluttertoast: ^8.2.10
