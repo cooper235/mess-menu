@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:uhl_link/config/routes/routes_consts.dart';
+import 'package:uhl_link/features/home/presentation/widgets/card.dart';
 
 class Explore extends StatefulWidget {
   final bool isGuest;
@@ -9,13 +12,42 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
+  List<Map<String, dynamic>> items = [
+    {
+      "text": "Mess Menu",
+      "icon": Icons.restaurant_menu_rounded,
+      "route": UhlLinkRoutesNames.messMenuPage
+    },
+    {
+      "text": "Campus Map",
+      "icon": Icons.map_outlined,
+      "route": UhlLinkRoutesNames.campusMapPage
+    },
+    {
+      "text": "Quick Links",
+      "icon": Icons.link_rounded,
+      "route": UhlLinkRoutesNames.quickLinksPage
+    },
+  ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        child: Container(),
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      physics: const ClampingScrollPhysics(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (int i = 0; i < items.length; i++)
+            CardWidget(
+              text: items[i]['text'],
+              icon: items[i]['icon'],
+              onTap: () {
+                GoRouter.of(context).pushNamed(items[i]['route']);
+              },
+            ),
+        ],
       ),
     );
   }

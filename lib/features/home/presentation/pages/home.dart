@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     List<Widget> homePages = [
       Dashboard(isGuest: widget.isGuest),
       Explore(isGuest: widget.isGuest),
-      Academics(isGuest: widget.isGuest),
+      Academics(isGuest: widget.isGuest, user: widget.user),
       Notifications(isGuest: widget.isGuest),
       Profile(isGuest: widget.isGuest, user: widget.user),
     ];

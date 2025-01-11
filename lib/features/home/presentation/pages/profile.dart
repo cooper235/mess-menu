@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uhl_link/config/routes/routes_consts.dart';
 import 'package:uhl_link/utils/functions.dart';
+
+import '../widgets/card.dart';
 
 class Profile extends StatefulWidget {
   final bool isGuest;
@@ -15,6 +19,29 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> items = [
+      {
+        "text": "Update Password",
+        "icon": Icons.password_rounded,
+        "route": UhlLinkRoutesNames.updatePassword,
+        'pathParameters': {"user": jsonEncode(widget.user)},
+        "guest": false
+      },
+      {
+        "text": "Achievements/PORs",
+        "icon": Icons.emoji_events_rounded,
+        "route": UhlLinkRoutesNames.porsPage,
+        'pathParameters': {},
+        "guest": false
+      },
+      {
+        "text": "Settings",
+        "icon": Icons.settings,
+        "route": UhlLinkRoutesNames.settingsPage,
+        'pathParameters': {},
+        "guest": true
+      },
+    ];
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -111,6 +138,18 @@ class _ProfileState extends State<Profile> {
             thickness: 2,
             color: Theme.of(context).colorScheme.scrim,
           ),
+          for (var item in items
+              .where((item) => widget.isGuest ? item['guest'] == true : true))
+            CardWidget(
+              text: item['text'],
+              icon: item['icon'],
+              onTap: () {
+                GoRouter.of(context).pushNamed(item['route'], pathParameters: {
+                  for (var entry in item['pathParameters'].entries)
+                    entry.key: entry.value.toString()
+                });
+              },
+            ),
         ],
       ),
     );

@@ -11,12 +11,9 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        child: Container(),
-      ),
+    return Center(
+      child: Text("This page is not yet created",
+          style: Theme.of(context).textTheme.labelSmall),
     );
   }
 }
