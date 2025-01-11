@@ -7,10 +7,10 @@ import '../../../domain/usecases/get_jobs.dart';
 part 'job_event.dart';
 part 'job_state.dart';
 
-class AuthenticationBloc extends Bloc<JobPortalEvent, JobPortalState> {
+class JobPortalBloc extends Bloc<JobPortalEvent, JobPortalState> {
   final GetJobs getJobs;
 
-  AuthenticationBloc({required this.getJobs}) : super(JobPortalInitial()) {
+  JobPortalBloc({required this.getJobs}) : super(JobPortalInitial()) {
     on<GetJobsEvent>(onGetJobsEvent);
   }
 

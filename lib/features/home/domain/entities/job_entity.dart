@@ -11,7 +11,7 @@ class JobEntity {
   final String details;
   final EligibilityCriteria eligibilityCriteria;
   final Contact contact;
-  final Map<String, String> website;
+  final String website;
 
   JobEntity({
     required this.id,

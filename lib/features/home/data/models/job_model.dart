@@ -13,7 +13,7 @@ class Job {
   final String details;
   final EligibilityCriteria eligibilityCriteria;
   final Contact contact;
-  final Map<String, String> website;
+  final String website;
 
   Job({
     required this.id,

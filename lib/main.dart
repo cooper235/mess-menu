@@ -12,6 +12,10 @@ import 'package:uhl_link/utils/theme.dart';
 import 'features/authentication/data/repository_implementations/user_repository_impl.dart';
 import 'features/authentication/domain/usecases/signin_user.dart';
 import 'features/authentication/presentation/bloc/user_bloc.dart';
+import 'features/home/data/data_sources/job_portal_data_sources.dart';
+import 'features/home/data/repository_implementations/job_portal_repository_impl.dart';
+import 'features/home/domain/usecases/get_jobs.dart';
+import 'features/home/presentation/bloc/job_portal_bloc/job_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +23,7 @@ void main() async {
   //   options: DefaultFirebaseOptions.currentPlatform,
   // );
   await UhlUsersDB.connect();
+  await JobPortalDB.connect();
   const storage = FlutterSecureStorage();
   final GoRouter router = UhlLinkRouter().router;
   runApp(BlocProvider<ThemeBloc>(
@@ -42,7 +47,10 @@ class UhlLink extends StatelessWidget {
         RepositoryProvider<UpdatePassword>(
             create: (_) => UpdatePassword(UserRepositoryImpl(UhlUsersDB()))),
         RepositoryProvider<GetUserByEmail>(
-            create: (_) => GetUserByEmail(UserRepositoryImpl(UhlUsersDB())))
+            create: (_) => GetUserByEmail(UserRepositoryImpl(UhlUsersDB()))),
+        RepositoryProvider<GetJobs>(
+          create: (_) => GetJobs(JobPortalRepositoryImpl(JobPortalDB())),
+        )
       ],
       child: MultiBlocProvider(
         providers: [
@@ -53,6 +61,10 @@ class UhlLink extends StatelessWidget {
                       UpdatePassword(UserRepositoryImpl(UhlUsersDB())),
                   getUserByEmail:
                       GetUserByEmail(UserRepositoryImpl(UhlUsersDB())))),
+          BlocProvider<JobPortalBloc>(
+              create: (context) => JobPortalBloc(
+                    getJobs: GetJobs(JobPortalRepositoryImpl(JobPortalDB())),
+                  )),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
