@@ -1,21 +1,9 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../utils/functions.dart';
 
 class QuickLinksPage extends StatelessWidget {
   QuickLinksPage({super.key});
-
-  Future<void> launchURL(String url) async {
-    final Uri uri = Uri.parse(url.trim());
-    log("$uri");
-    try {
-      await launchUrl(uri);
-      log('Launched successfully');
-    } catch (e) {
-      log('Error occurred while launching: $e');
-      throw 'Could not launch $url';
-    }
-  }
 
   final Map<String, List<List<String>>> iitMandiLinks = {
     "Institute": [

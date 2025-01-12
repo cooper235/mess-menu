@@ -6,7 +6,7 @@ class JobCard extends StatelessWidget {
   final String location;
   final String stipend;
   final String jobType;
-  final String logoUrl;
+  final String image;
   final VoidCallback onViewDetails;
 
   const JobCard({
@@ -16,7 +16,7 @@ class JobCard extends StatelessWidget {
     required this.location,
     required this.stipend,
     required this.jobType,
-    required this.logoUrl,
+    required this.image,
     required this.onViewDetails,
   });
 
@@ -80,14 +80,18 @@ class JobCard extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Image.network(
-                    logoUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Icon(Icons.error,
-                          size: MediaQuery.of(context).size.width * 0.08,
-                          color: Theme.of(context).colorScheme.onError);
-                    },
+                  child: ClipRRect(
+
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      image,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(Icons.error,
+                            size: MediaQuery.of(context).size.width * 0.08,
+                            color: Theme.of(context).colorScheme.onError);
+                      },
+                    ),
                   ),
                 ),
               ],

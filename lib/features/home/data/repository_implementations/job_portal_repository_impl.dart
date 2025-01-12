@@ -16,6 +16,7 @@ class JobPortalRepositoryImpl implements JobPortalRepository {
           id: jobs[i].id,
           name: jobs[i].name,
           company: jobs[i].company,
+          image: jobs[i].image,
           type: jobs[i].type,
           location: jobs[i].location,
           stipend: jobs[i].stipend,

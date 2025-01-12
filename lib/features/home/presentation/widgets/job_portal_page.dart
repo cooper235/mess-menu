@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:uhl_link/config/routes/routes_consts.dart';
 import 'package:uhl_link/features/home/domain/entities/job_entity.dart';
 import 'package:uhl_link/features/home/presentation/bloc/job_portal_bloc/job_bloc.dart';
 import 'package:uhl_link/features/home/presentation/widgets/job_card.dart';
@@ -51,8 +53,12 @@ class _JobPortalPageState extends State<JobPortalPage> {
                   location: job.location,
                   stipend: job.stipend,
                   jobType: job.type,
-                  logoUrl: job.image ?? "",
-                  onViewDetails: () {},
+                  image: job.image ?? "",
+                  onViewDetails: () {
+                    GoRouter.of(context).pushNamed(
+                        UhlLinkRoutesNames.jobDetailsPage,
+                        pathParameters: {"job": jsonEncode(job.toMap())});
+                  },
                 );
               },
               separatorBuilder: (context, index) {

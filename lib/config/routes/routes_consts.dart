@@ -20,4 +20,8 @@ class UhlLinkRoutesNames {
   // Profile
   static const String porsPage = 'pors_page';
   static const String settingsPage = 'settings_page';
+
+  // Job portal
+  static const String jobDetailsPage = 'job_details_page';
+
 }

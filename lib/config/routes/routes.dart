@@ -11,6 +11,7 @@ import 'package:uhl_link/features/home/presentation/widgets/PORs_page.dart';
 import 'package:uhl_link/features/home/presentation/widgets/academic_calender_page.dart';
 import 'package:uhl_link/features/home/presentation/widgets/achievements_page.dart';
 import 'package:uhl_link/features/home/presentation/widgets/campus_map_page.dart';
+import 'package:uhl_link/features/home/presentation/widgets/job_details_page.dart';
 import 'package:uhl_link/features/home/presentation/widgets/job_portal_page.dart';
 import 'package:uhl_link/features/home/presentation/widgets/mess_menu_page.dart';
 import 'package:uhl_link/features/home/presentation/widgets/quick_links_page.dart';
@@ -72,8 +73,7 @@ class UhlLinkRouter {
           name: UhlLinkRoutesNames.quickLinksPage,
           path: '/quick_links',
           pageBuilder: (context, state) {
-            return MaterialPage(
-                key: state.pageKey, child: QuickLinksPage());
+            return MaterialPage(key: state.pageKey, child: QuickLinksPage());
           }),
 
       // Academics
@@ -121,6 +121,16 @@ class UhlLinkRouter {
           pageBuilder: (context, state) {
             return MaterialPage(
                 key: state.pageKey, child: const SettingsPage());
+          }),
+
+      GoRoute(
+          name: UhlLinkRoutesNames.jobDetailsPage,
+          path: '/job_details/:job',
+          pageBuilder: (context, state) {
+            return MaterialPage(
+                key: state.pageKey,
+                child: JobDetailsPage(
+                    job: jsonDecode(state.pathParameters["job"]!)));
           }),
 
       GoRoute(
