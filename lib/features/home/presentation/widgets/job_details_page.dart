@@ -87,6 +87,25 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                 ),
               ],
             ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width - 40,
+              height: MediaQuery.of(context).size.height * 0.05,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.av_timer_rounded,
+                    size: 30,
+                    color: Theme.of(context).colorScheme.onError,
+                  ),
+                  Text("Apply By ${currentJob.applyBy}",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.onError)),
+                ],
+              ),
+            ),
           ],
         ),
       ),
