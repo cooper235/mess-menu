@@ -1,0 +1,366 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MessMenuApp());
+}
+
+class MessMenuApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Mess Menu',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MessMenuPage(),
+    );
+  }
+}
+
+class MessMenuPage extends StatefulWidget {
+  @override
+  _MessMenuPageState createState() => _MessMenuPageState();
+}
+
+class _MessMenuPageState extends State<MessMenuPage> {
+  late Map<String, dynamic> menuData;
+
+  @override
+  void initState() {
+    super.initState();
+    menuData = jsonDecode(menuJsonString);  // Parse the embedded JSON string
+  }
+
+  Widget buildMenuSection(String mealType, Map<String, dynamic> data) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            mealType,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Divider(),
+        for (var day in data.keys)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  day,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                for (var item in data[day]) 
+                  Text(item),
+                Divider(),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Mess Menu'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            buildMenuSection('Breakfast', menuData['Breakfast']),
+            buildMenuSection('Lunch', menuData['Lunch']),
+            buildMenuSection('Dinner', menuData['Dinner']),
+            buildMenuSection('Snacks', menuData['Snacks']),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// JSON Data simulated as a String
+const String menuJsonString = '''
+{
+  "Breakfast": {
+    "Monday": [
+      "Aloo onion\\nparatha",
+      "Chutney",
+      "Curd",
+      "Fruits/ Eggs",
+      "Daliya",
+      "Milk(200 ml)",
+      "Bread (4 slices)",
+      "Butter",
+      "Jam",
+      "Bournvita",
+      "Coffee Powder/\\nTea bags",
+      "Sprouts(Black\\nChana+\\nMoong+Lemon)"
+    ],
+    "Tuesday": [
+      "Puri",
+      "Chana Masala",
+      "Halwa",
+      "",
+      "Cornflakes",
+      "Milk(200 ml)",
+      "Bread (4 slices)",
+      "Butter",
+      "Jam",
+      "Bournvita",
+      "Coffee Powder/\\nTea bags",
+      "Sprouts(Black\\nChana+ Moong)"
+    ],
+    "Wednesday": [
+      "Mix Paratha",
+      "Dhaniya Chutney",
+      "Curd",
+      "",
+      "Daliya",
+      "Milk (200 ml)",
+      "Bread (4 slices)",
+      "Butter",
+      "Jam",
+      "Bournvita",
+      "Coffee Powder/\\nTea bags",
+      "Sprouts(Black\\nChana+ Moong)"
+    ],
+    "Thursday": [
+      "Poha",
+      "Green Chutney",
+      "",
+      "Fruits/ 2 Omlette",
+      "Daliya",
+      "Milk (200 ml)",
+      "Bread (4 slices)",
+      "Butter",
+      "Jam",
+      "Bournvita",
+      "Coffee Powder/\\nTea bags",
+      "Sprouts(Black\\nChana+ Moong)"
+    ],
+    "Friday": [
+      "Idli",
+      "Sambhar & chutney",
+      "",
+      "2 Banana/ 2 Eggs",
+      "Cornflakes",
+      "Milk(200 ml)",
+      "Bread (4 slices)",
+      "Butter",
+      "Jam",
+      "Bournvita",
+      "Coffee Powder/\\nTea bags",
+      "Sprouts(Black\\nChana+ Moong)"
+    ],
+    "Saturday": [
+      "Methi/Palak\\nparatha",
+      "Aloo Tamatar\\nSabji",
+      "",
+      "Fruits / 2 Eggs",
+      "Cornflakes",
+      "Milk (200 ml)",
+      "Bread (4 slices)",
+      "Butter",
+      "Jam",
+      "Bournvita",
+      "Coffee Powder/\\nTea bags",
+      "Sprouts(Black\\nChana+ Moong)"
+    ],
+    "Sunday": [
+      "Masala Onion\\nDosa",
+      "Sambar",
+      "Coconut Chutney",
+      "",
+      "Daliya",
+      "Milk (200 ml)",
+      "Bread (4 slices)",
+      "Butter",
+      "Jam",
+      "Bournvita",
+      "Coffee Powder/\\nTea bags",
+      "Sprouts(Black\\nChana+ Moong)"
+    ]
+  },
+  "Lunch": {
+    "Monday": [
+      "Arher Dal",
+      "Veg Kofta",
+      "",
+      "Roti",
+      "Rice",
+      "",
+      "Green Salad",
+      "Lemon + Pickle"
+    ],
+    "Tuesday": [
+      "Moong Dal",
+      "Cabbage-Matar",
+      "Rice",
+      "Roti",
+      "",
+      "Bundi Raita",
+      "Green Salad",
+      "Lemon + Pickle"
+    ],
+    "Wednesday": [
+      "Kadhi Pakora",
+      "Kaddu Khatta",
+      "Masala Papad/\\nFryums",
+      "Roti",
+      "Jeera Rice",
+      "",
+      "Green Salad",
+      "Lemon + Pickle"
+    ],
+    "Thursday": [
+      "White Chole",
+      "Aloo Began\\nBhartha",
+      "Poori",
+      "Bundi Raita",
+      "Rice",
+      "",
+      "Green Salad",
+      "Lemon + Pickle"
+    ],
+    "Friday": [
+      "Rajma",
+      "Aloo Tamatar Sabzi",
+      "Jeera Rice",
+      "Roti",
+      "",
+      "Curd",
+      "Green Salad",
+      "Lemon + Pickle"
+    ],
+    "Saturday": [
+      "Paneer Bhurji,\\nEgg Bhurji",
+      "Chana Dal",
+      "",
+      "Roti",
+      "Rice",
+      "",
+      "Green Salad",
+      "Lemon + Pickle"
+    ],
+    "Sunday": [
+      "Bhature",
+      "Chole",
+      "Green Chutney",
+      "Fried Masala\\nChilli",
+      "Khichdi",
+      "Butter Milk",
+      "Green Salad",
+      "Lemon + Pickle"
+    ]
+  },
+  "Dinner": {
+    "Monday": [
+      "Aloo Palak",
+      "Dal Fry",
+      "Motichur Laddu",
+      "Roti",
+      "Rice",
+      "Pickle",
+      "Green Salad",
+      "Lemon"
+    ],
+    "Tuesday": [
+      "Mix Veg\\n(gajar+paneer or\\nMushroom+bean\\+gobi+matar)",
+      "Dal Tadka",
+      "Besan Burfi",
+      "Roti",
+      "Rice",
+      "Pickle",
+      "Green Salad",
+      "Lemon"
+    ],
+    "Wednesday": [
+      "Kadahi Paneer/\\nChickenCurry",
+      "Red Massor Dal",
+      "Fruit Custard",
+      "Roti",
+      "Rice",
+      "Pickle",
+      "Green Salad",
+      "Lemon"
+    ],
+    "Thursday": [
+      "Aloo Gobhi",
+      "Dal Makhni",
+      "Besan Halwa",
+      "Roti",
+      "Rice",
+      "Pickle",
+      "Green Salad",
+      "Lemon"
+    ],
+    "Friday": [
+      "Paneer butter\\nmasala/Egg Curry",
+      "Mix Dal",
+      "Gulab Jamun",
+      "Roti",
+      "Rice",
+      "Pickle",
+      "Green Salad",
+      "Lemon"
+    ],
+    "Saturday": [
+      "Sarso ka Saag",
+      "Dal Fry",
+      "Kheer",
+      "Roti",
+      "Rice",
+      "Pickle",
+      "Green Salad",
+      "Lemon"
+    ],
+    "Sunday": [
+      "Paneer Biryani/\\nChicken Biryani",
+      "Aloo soyabean",
+      "Raita",
+      "Ice Cream",
+      "Roti",
+      "",
+      "Green Salad",
+      "Lemon + Pickle"
+    ]
+  },
+  "Snacks": {
+    "Monday": [
+      "Macroni/Pasta",
+      "Coffee"
+    ],
+    "Tuesday": [
+      "Pav Bhaji",
+      "Tea"
+    ],
+    "Wednesday": [
+      "Veg Sandwich",
+      "Tea"
+    ],
+    "Thursday": [
+      "Fried Idli",
+      "Tea"
+    ],
+    "Friday": [
+      "Chana peanut\\nChat",
+      "Tea"
+    ],
+    "Saturday": [
+      "Samosa+Imli\\nChat",
+      "Tea"
+    ],
+    "Sunday": [
+      "Bhel Poori or\\nBread Pakoda",
+      "Coffee"
+    ]
+  }
+}
+''';
+
